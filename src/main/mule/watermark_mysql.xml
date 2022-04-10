@@ -16,12 +16,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</db:listener>
 		<ee:transform doc:name="Transform Message" doc:id="e5e099fb-8bc3-492b-a380-e9f19c8484dc" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json		
+				<ee:set-payload >	
 ---
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="adeb61d4-4417-4335-8ed3-bc9f0c9cedb0" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger1" doc:id="adeb61d4-4417-4335-8ed3-bc9f0c9cedb0" message="#[payload]"/>
 	</flow>
 </mule>
