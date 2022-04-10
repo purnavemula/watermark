@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="f555ad4c-68fc-4f8b-9f21-81b87aff8858" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="punny@333" database="practice"/>
+	</db:config>
+	<flow name="watermark_mysqlFlow" doc:id="ee4bef5b-e2ce-413f-8215-ccd44176be64" >
+		<db:listener doc:name="On Table Row" doc:id="26f1c15b-677e-4aff-8bd6-f1b35efa7b7a" config-ref="Database_Config" table="bank" watermarkColumn="id">
+			<scheduling-strategy >
+				<fixed-frequency frequency="20" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</db:listener>
+		<ee:transform doc:name="Transform Message" doc:id="e5e099fb-8bc3-492b-a380-e9f19c8484dc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json		
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="adeb61d4-4417-4335-8ed3-bc9f0c9cedb0" message="#[payload]"/>
+	</flow>
+</mule>
